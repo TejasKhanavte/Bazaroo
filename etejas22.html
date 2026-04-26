@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazaaro .in - Online Shopping Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --amazon-blue: #146EB4;
+            --amazon-orange: #FF9900;
+            --amazon-dark: #111111;
+            --amazon-gray: #37475A;
+            --amazon-light-gray: #F7F7F7;
+            --amazon-border: #DDDFE1;
+            --amazon-green: #00A591;
+            --white: #FFFFFF;
+            --text-primary: #0F1419;
+            --text-secondary: #565959;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: var(--amazon-light-gray);
+            overflow-x: hidden;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .header {
+            background: var(--amazon-dark);
+            color: white;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            background: #232F3E;
+            padding: 8px 0;
+            font-size: 12px;
+        }
+
+        .header-content {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .header-main {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideDown 0.4s ease;
+        }
+
+        .amazon-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--amazon-orange);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            letter-spacing: -1px;
+            white-space: nowrap;
+        }
+
+        .amazon-logo i {
+            color: var(--amazon-blue);
+            font-size: 20px;
+        }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 4px;
+            height: 40px;
+            overflow: visible;
+        }
+
+        .search-select {
+            background: var(--amazon-light-gray);
+            border: none;
+            border-right: 1px solid var(--amazon-border);
+            padding: 10px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            width: 55px;
+            height: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--amazon-border);
+            border-top: none;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        .suggestion-item:hover {
+            background: var(--amazon-light-gray);
+        }
+
+        .search-btn {
+            background: var(--amazon-orange);
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            height: 100%;
+            color: var(--text-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .search-btn:hover {
+            background: #FF9900CC;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            position: relative;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-item:hover {
+            opacity: 0.8;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            line-height: 1.2;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            color: var(--amazon-orange);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .header-secondary {
+            background: #232F3E;
+            padding: 10px 0;
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .secondary-nav a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .secondary-nav a:hover {
+            opacity: 0.8;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1a4d7d 0%, #146EB4 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 153, 0, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: slideUp 0.6s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            animation: slideUp 0.6s ease 0.1s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background: #FF9900;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .deals-banner {
+            max-width: 1500px;
+            margin: -40px auto 0;
+            padding: 0 15px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .deal-card {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+            animation: slideUp 0.5s ease;
+        }
+
+        .deal-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .deal-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .deal-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .deal-subtitle {
+            font-size: 11px;
+            color: var(--amazon-orange);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .filter-select,
+        .price-input {
+            padding: 8px 12px;
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            color: var(--text-primary);
+        }
+
+        .filter-select:focus,
+        .price-input:focus {
+            outline: none;
+            border-color: var(--amazon-blue);
+            box-shadow: 0 0 0 2px rgba(20, 110, 180, 0.1);
+        }
+
+        .clear-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid var(--amazon-border);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover {
+            background: var(--amazon-light-gray);
+        }
+
+        .products-section {
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            border-color: var(--amazon-orange);
+        }
+
+        .product-image {
+            position: relative;
+            height: 200px;
+            background: #f5f5f5;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--amazon-green);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid var(--amazon-border);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .wishlist-btn:hover {
+            background: var(--amazon-light-gray);
+        }
+
+        .wishlist-btn.active {
+            color: var(--amazon-orange);
+            border-color: var(--amazon-orange);
+        }
+
+        .product-info {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 32px;
+        }
+
+        .product-seller {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .stars {
+            color: var(--amazon-orange);
+            font-size: 11px;
+        }
+
+        .rating-count {
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex: 1;
+        }
+
+        .price-symbol {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .current-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .original-price {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .add-cart-btn {
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+        }
+
+        .add-cart-btn:hover {
+            background: #FF9900;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .detail-btn {
+            background: white;
+            color: var(--amazon-blue);
+            border: 1px solid var(--amazon-blue);
+        }
+
+        .detail-btn:hover {
+            background: var(--amazon-light-gray);
+        }
+
+        /* CART SIDEBAR */
+        .cart-sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 450px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            padding: 15px 20px;
+            background: var(--amazon-light-gray);
+            border-bottom: 1px solid var(--amazon-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: opacity 0.2s;
+        }
+
+        .cart-close:hover {
+            opacity: 0.6;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--amazon-border);
+            align-items: flex-start;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background: var(--amazon-light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .cart-item-price {
+            color: var(--amazon-orange);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+        }
+
+        .qty-btn {
+            background: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .qty-btn:hover {
+            background: var(--amazon-light-gray);
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--amazon-blue);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            margin-top: 6px;
+        }
+
+        .remove-item:hover {
+            opacity: 0.6;
+            color: #C7511F;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-cart i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            background: var(--amazon-light-gray);
+            border-top: 1px solid var(--amazon-border);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .summary-row.total {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--amazon-orange);
+            padding-top: 10px;
+            border-top: 1px solid var(--amazon-border);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .checkout-btn:hover {
+            background: #FF9900;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 4px;
+            padding: 0;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 95vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 3100;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--amazon-light-gray);
+            border-bottom: 1px solid var(--amazon-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 0.6;
+        }
+
+        .modal-content {
+            padding: 25px;
+        }
+
+        /* PRODUCT DETAIL */
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .detail-image {
+            position: relative;
+            height: 500px;
+            background: var(--amazon-light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-info h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .detail-seller {
+            font-size: 13px;
+            color: var(--amazon-blue);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .detail-price-section {
+            background: var(--amazon-light-gray);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .detail-price {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .detail-current-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--amazon-orange);
+        }
+
+        .detail-original-price {
+            font-size: 16px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .detail-discount {
+            color: var(--amazon-green);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .detail-specs {
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .spec-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--amazon-border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .spec-value {
+            color: var(--text-secondary);
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .detail-actions .action-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .similar-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--amazon-border);
+        }
+
+        .similar-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .similar-product {
+            background: var(--amazon-light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--amazon-border);
+        }
+
+        .similar-product:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border-color: var(--amazon-orange);
+        }
+
+        .similar-image {
+            width: 100%;
+            height: 120px;
+            background: #f5f5f5;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .similar-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .similar-product:hover .similar-image img {
+            transform: scale(1.05);
+        }
+
+        .similar-info {
+            padding: 10px;
+            font-size: 11px;
+        }
+
+        .similar-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 24px;
+        }
+
+        .similar-price {
+            color: var(--amazon-orange);
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* AUTH */
+        .auth-modal {
+            max-width: 400px !important;
+            max-height: 90vh !important;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            transform: none !important;
+            margin: 0 !important;
+            z-index: 3100;
+        }
+
+        .auth-form {
+            padding: 30px !important;
+        }
+
+        .auth-form h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .auth-form p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--amazon-blue);
+            box-shadow: 0 0 0 2px rgba(20, 110, 180, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn:hover {
+            background: #FF9900;
+        }
+
+        .toggle-auth {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .toggle-auth button {
+            background: none;
+            border: none;
+            color: var(--amazon-blue);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* ORDERS */
+        .orders-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .order-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .order-status.delivered {
+            background: #E8F5E9;
+            color: #1B5E20;
+        }
+
+        .order-status.processing {
+            background: #E3F2FD;
+            color: #0D47A1;
+        }
+
+        .order-status.shipped {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .order-status.returned {
+            background: #FCE4EC;
+            color: #880E4F;
+        }
+
+        /* ✅ NEW: Seller Approval Status Styles */
+        .order-status.pending-seller-approval {
+            background: #FFF8E1;
+            color: #F57F17;
+        }
+
+        .order-status.ready-to-deliver {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .order-items {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--amazon-border);
+        }
+
+        .order-price {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 10px;
+        }
+
+        .delivery-date {
+            font-size: 12px;
+            color: var(--amazon-green);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .order-action-btn {
+            padding: 7px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .order-return-btn {
+            background: white;
+            color: var(--amazon-blue);
+            border: 1px solid var(--amazon-blue);
+        }
+
+        .order-return-btn:hover {
+            background: #e8f0f8;
+        }
+
+        .order-delete-btn {
+            background: white;
+            color: #C7511F;
+            border: 1px solid #C7511F;
+        }
+
+        .order-delete-btn:hover {
+            background: #fdf0eb;
+        }
+
+        /* NOTIFICATION */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 4000;
+            animation: slideUp 0.3s ease;
+            max-width: 350px;
+            font-size: 13px;
+            border-left: 4px solid var(--amazon-orange);
+        }
+
+        .notification.success {
+            border-left-color: var(--amazon-green);
+        }
+
+        .notification.error {
+            border-left-color: #C7511F;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #232F3E;
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 15px solid var(--amazon-dark);
+        }
+
+        .footer-grid {
+            max-width: 1500px;
+            margin: 0 auto 30px;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #DDD;
+            text-decoration: none;
+            font-size: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--amazon-orange);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #DDD;
+        }
+
+        .back-to-top {
+            text-align: center;
+            padding: 15px 0;
+            background: var(--amazon-dark);
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .back-to-top:hover {
+            background: #000;
+        }
+
+        /* SELLER */
+        .seller-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--amazon-border);
+            margin-bottom: 20px;
+        }
+
+        .seller-tab {
+            padding: 10px 22px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .seller-tab.active {
+            color: var(--amazon-orange);
+            border-bottom-color: var(--amazon-orange);
+        }
+
+        .seller-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .seller-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .seller-stat-card {
+            background: var(--amazon-light-gray);
+            border-radius: 4px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--amazon-border);
+        }
+
+        .seller-stat-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--amazon-orange);
+        }
+
+        .seller-stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .seller-product-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--amazon-border);
+            font-size: 13px;
+        }
+
+        .seller-product-row img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #eee;
+        }
+
+        .seller-product-info {
+            flex: 1;
+        }
+
+        .seller-product-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+        }
+
+        .seller-product-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .seller-product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .s-edit-btn {
+            padding: 6px 14px;
+            background: white;
+            color: var(--amazon-blue);
+            border: 1px solid var(--amazon-blue);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .s-edit-btn:hover {
+            background: #e8f0f8;
+        }
+
+        .s-del-btn {
+            padding: 6px 14px;
+            background: white;
+            color: #C7511F;
+            border: 1px solid #C7511F;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .s-del-btn:hover {
+            background: #fdf0eb;
+        }
+
+        .add-product-btn {
+            padding: 9px 20px;
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .add-product-btn:hover {
+            background: #e68900;
+        }
+
+        .seller-form-group {
+            margin-bottom: 13px;
+        }
+
+        .seller-form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .seller-form-group input,
+        .seller-form-group select,
+        .seller-form-group textarea {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid var(--amazon-border);
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-primary);
+        }
+
+        .seller-form-group input:focus,
+        .seller-form-group select:focus,
+        .seller-form-group textarea:focus {
+            outline: none;
+            border-color: var(--amazon-blue);
+            box-shadow: 0 0 0 2px rgba(20, 110, 180, 0.1);
+        }
+
+        .seller-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .seller-save-btn {
+            width: 100%;
+            padding: 11px;
+            background: var(--amazon-orange);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .seller-save-btn:hover {
+            background: #e68900;
+        }
+
+        .seller-order-row {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--amazon-border);
+            font-size: 13px;
+        }
+
+        .seller-order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .seller-order-id {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .seller-order-items {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .seller-order-total {
+            font-weight: 700;
+            color: var(--amazon-orange);
+            margin-top: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* ✅ NEW: Approve button style */
+        .s-approve-btn {
+            padding: 6px 14px;
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #2E7D32;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .s-approve-btn:hover {
+            background: #2E7D32;
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-image {
+                height: 350px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            }
+
+            .cart-sidebar {
+                width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .deals-banner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .product-image {
+                height: 150px;
+            }
+
+            .hero-title {
+                font-size: 24px;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #999;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="header-content">
+                <div style="display: flex; gap: 30px; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; gap: 30px;">
+                        <a href="#" style="color: white; text-decoration: none; font-size: 12px;">Account & Lists</a>
+                        <a href="#" style="color: white; text-decoration: none; font-size: 12px;">Returns & Orders</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-content">
+            <div class="header-main">
+                <div class="amazon-logo" onclick="goHome()">
+                    <i class="fas fa-fire"></i>Bazaaro <span
+                        style="color: var(--amazon-orange); font-size: 11px; margin-left: 2px;">.in</span>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <select class="search-select" id="categorySelect">
+                            <option>All</option>
+                            <option>Electronics</option>
+                            <option>Clothing</option>
+                            <option>Books</option>
+                            <option>Home</option>
+                        </select>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search Amazon.in"
+                            oninput="showSearchSuggestions()">
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                        <button class="search-btn" onclick="performSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="header-nav">
+                    <div class="nav-item" onclick="toggleAuthModal()" style="cursor: pointer;">
+                        <div style="font-size: 16px;">👤</div>
+                        <span class="nav-text" id="accountText">Sign In</span>
+                    </div>
+                    <div class="nav-item" onclick="showOrders()" style="cursor: pointer;">
+                        <div style="font-size: 16px;">📦</div>
+                        <span class="nav-text">Orders</span>
+                    </div>
+                    <div class="nav-item" onclick="toggleSellerModal()" style="cursor: pointer;">
+                        <div style="font-size: 16px;">🏪</div>
+                        <span class="nav-text" id="sellerNavText">Sell</span>
+                    </div>
+                    <div class="nav-item" onclick="toggleCart()" style="cursor: pointer;">
+                        <div class="nav-icon">🛒</div>
+                        <span class="nav-text">Cart</span>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-content">
+            <div class="header-secondary">
+                <div class="secondary-nav">
+                    <a onclick="scrollToProducts()" style="cursor: pointer;">Best Sellers</a>
+                    <a href="#" onclick="event.preventDefault()">Mobiles</a>
+                    <a href="#" onclick="event.preventDefault()">Electronics</a>
+                    <a href="#" onclick="event.preventDefault()">Prime</a>
+                    <a href="#" onclick="event.preventDefault()">Fashion</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Bazaaro.in</h1>
+            <p class="hero-subtitle">Millions of Products. Unbeatable Prices. Fast Delivery.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToProducts()">Start Shopping</button>
+                <button class="btn btn-secondary" onclick="alert('Prime Video')">Prime Video</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="deals-banner">
+        <div class="deal-card" onclick="filterByCategory('electronics')">
+            <div class="deal-icon">📱</div>
+            <div class="deal-title">Electronics</div>
+            <div class="deal-subtitle">Special Prices</div>
+        </div>
+        <div class="deal-card" onclick="filterByCategory('clothing')">
+            <div class="deal-icon">👗</div>
+            <div class="deal-title">Fashion</div>
+            <div class="deal-subtitle">Up to 50% Off</div>
+        </div>
+        <div class="deal-card" onclick="filterByCategory('home')">
+            <div class="deal-icon">🏠</div>
+            <div class="deal-title">Home & Kitchen</div>
+            <div class="deal-subtitle">Great Deals</div>
+        </div>
+        <div class="deal-card" onclick="filterByCategory('beauty')">
+            <div class="deal-icon">💄</div>
+            <div class="deal-title">Beauty</div>
+            <div class="deal-subtitle">Best Price</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filters-section">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="filter-label">Category:</label>
+                    <select id="categoryFilter" class="filter-select" onchange="applyFilters()">
+                        <option value="">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home & Kitchen</option>
+                        <option value="beauty">Beauty</option>
+                        <option value="books">Books</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Price:</label>
+                    <input type="number" id="minPrice" class="price-input" placeholder="Min" onchange="applyFilters()">
+                    <span style="color: var(--text-secondary);">-</span>
+                    <input type="number" id="maxPrice" class="price-input" placeholder="Max" onchange="applyFilters()">
+                </div>
+                <button class="clear-btn" onclick="clearFilters()">Clear All</button>
+            </div>
+        </div>
+
+        <div class="products-section" id="productsSection">
+            <div class="section-header">
+                <h2 class="section-title">Best Sellers</h2>
+                <div class="sort-group">
+                    <label>Sort by:</label>
+                    <select id="sortBy" class="filter-select" onchange="applyFilters()">
+                        <option value="newest">Latest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Shopping Cart</h2>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart"><i class="fas fa-shopping-cart"></i>
+                <p>Your Amazon Cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="summary-row"><span>Subtotal:</span><span id="subtotal">₹0</span></div>
+            <div class="summary-row"><span>Shipping:</span><span id="delivery">FREE</span></div>
+            <div class="summary-row total"><span>Total:</span><span id="total">₹0</span></div>
+            <button class="checkout-btn" onclick="proceedCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+
+        <div class="modal" id="productModal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">Product Details</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-content" id="productDetailContent"></div>
+        </div>
+
+        <div class="modal auth-modal" id="authModal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">Account</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div id="authFormContent"></div>
+        </div>
+
+        <div class="modal" id="ordersModal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">📦 Your Orders</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-content" id="ordersContent"></div>
+        </div>
+
+        <div class="modal auth-modal" id="sellerAuthModal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">🏪 Seller Account</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div id="sellerAuthContent"></div>
+        </div>
+
+        <div class="modal" id="sellerDashModal" onclick="event.stopPropagation()" style="max-width:900px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🏪 Seller Dashboard</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-content" id="sellerDashContent"></div>
+        </div>
+
+        <div class="modal auth-modal" id="sellerProductModal" onclick="event.stopPropagation()"
+            style="max-width:500px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="sellerProductModalTitle">Add Product</h3>
+                <button class="modal-close" onclick="openModal('sellerDashModal'); renderSellerDash()">✕</button>
+            </div>
+            <div class="modal-content" id="sellerProductContent"></div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>Get to Know Us</h4><a href="#">About Amazon</a><a href="#">Careers</a><a href="#">Press
+                    Releases</a><a href="#">Blog</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect with Us</h4><a href="#">Facebook</a><a href="#">Twitter</a><a href="#">Instagram</a><a
+                    href="#">YouTube</a>
+            </div>
+            <div class="footer-section">
+                <h4>Make Money with Us</h4><a href="#">Sell on Amazon</a><a href="#">Become an Affiliate</a><a
+                    href="#">Advertise Your Products</a><a href="#">Become a Delivery Partner</a>
+            </div>
+            <div class="footer-section">
+                <h4>Help & Settings</h4><a href="#">Help Center</a><a href="#">Your Account</a><a href="#">Returns
+                    Center</a><a href="#">Contact Us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Amazon.com, Inc. or its affiliates. All rights reserved.</p>
+        </div>
+        <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top</div>
+    </footer>
+
+    <script>
+        // ==================== PRODUCTS DATA ====================
+        const productsData = [
+            { id: 1, title: "Premium Wireless Earbuds Pro Max", category: "electronics", price: 1299, originalPrice: 3999, rating: 4.5, reviews: 2340, seller: "TechStore", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop", discount: 68 },
+            { id: 2, title: "100% Cotton T-Shirt Combo Pack - 3 Pieces", category: "clothing", price: 499, originalPrice: 1299, rating: 4.3, reviews: 1234, seller: "Fashion Hub", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop", discount: 62 },
+            { id: 3, title: "Premium Stainless Steel Cookware Set - 12 Pieces", category: "home", price: 2499, originalPrice: 6999, rating: 4.6, reviews: 892, seller: "KitchenPro", image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=400&h=400&fit=crop", discount: 64 },
+            { id: 4, title: "Hydrating Face Cream with Vitamin E & Aloe", category: "beauty", price: 399, originalPrice: 1199, rating: 4.4, reviews: 567, seller: "BeautyCare", image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop", discount: 67 },
+            { id: 5, title: "Genuine Leather Bifold Wallet - RFID Protected", category: "books", price: 599, originalPrice: 1699, rating: 4.5, reviews: 723, seller: "AccessoryWorld", image: "https://images.unsplash.com/photo-1531835551805-16d864c8be12?w=400&h=400&fit=crop", discount: 65 },
+            { id: 6, title: "Portable Power Bank 20000mAh - Dual USB Port", category: "electronics", price: 999, originalPrice: 2999, rating: 4.3, reviews: 1856, seller: "TechStore", image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop", discount: 67 },
+            { id: 7, title: "Women's Pure Cotton Printed Saree - Traditional", category: "clothing", price: 799, originalPrice: 2299, rating: 4.6, reviews: 934, seller: "EthnicWear", image: "https://images.unsplash.com/photo-1629355786726-cd50f3e89b14?w=400&h=400&fit=crop", discount: 65 },
+            { id: 8, title: "Smart LED Desk Lamp with Adjustable Brightness", category: "home", price: 749, originalPrice: 1999, rating: 4.4, reviews: 612, seller: "LightingPro", image: "https://images.unsplash.com/photo-1565636192335-14a8dd8e2ff5?w=400&h=400&fit=crop", discount: 63 },
+            { id: 9, title: "Argan Oil Hair Serum - Nourishing Treatment", category: "beauty", price: 449, originalPrice: 1299, rating: 4.5, reviews: 489, seller: "HairCare", image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop", discount: 65 },
+            { id: 10, title: "Travel Backpack 40L - Water Resistant", category: "books", price: 1299, originalPrice: 3499, rating: 4.5, reviews: 1023, seller: "BagStore", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop", discount: 63 },
+            { id: 11, title: "USB-C Fast Charging Cable 2M - Pack of 2", category: "electronics", price: 299, originalPrice: 999, rating: 4.2, reviews: 834, seller: "TechStore", image: "https://images.unsplash.com/photo-1621532823906-f51cdb892545?w=400&h=400&fit=crop", discount: 70 },
+            { id: 12, title: "Men's Formal White Cotton Shirt - Regular Fit", category: "clothing", price: 599, originalPrice: 1599, rating: 4.4, reviews: 756, seller: "FashionHub", image: "https://images.unsplash.com/photo-1607622814075-e51df1bdc82f?w=400&h=400&fit=crop", discount: 63 },
+            { id: 13, title: "100% Pure Cotton Bed Sheet Set - Double Size", category: "home", price: 999, originalPrice: 2999, rating: 4.5, reviews: 678, seller: "HomeComfort", image: "https://images.unsplash.com/photo-1595521624277-7b21b2e52a1b?w=400&h=400&fit=crop", discount: 67 },
+            { id: 14, title: "Broad Spectrum Sunscreen SPF 50+ - 100ml", category: "beauty", price: 299, originalPrice: 899, rating: 4.3, reviews: 423, seller: "SkincarePlus", image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop", discount: 67 },
+            { id: 15, title: "Analog Wrist Watch - Leather Strap", category: "books", price: 999, originalPrice: 2799, rating: 4.6, reviews: 912, seller: "WatchWorld", image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400&h=400&fit=crop", discount: 64 },
+            { id: 16, title: "Universal Mobile Phone Stand - Adjustable", category: "electronics", price: 249, originalPrice: 799, rating: 4.1, reviews: 567, seller: "GadgetWorld", image: "https://images.unsplash.com/photo-1605559424843-9e4c3feb3a81?w=400&h=400&fit=crop", discount: 69 },
+            { id: 17, title: "Women's Bridal Lehenga Set - Embroidered", category: "clothing", price: 1299, originalPrice: 3499, rating: 4.7, reviews: 645, seller: "EthnicWear", image: "https://images.unsplash.com/photo-1604699425256-1f93f09b4187?w=400&h=400&fit=crop", discount: 63 },
+            { id: 18, title: "Non-Stick Frying Pan with Glass Lid", category: "home", price: 799, originalPrice: 1999, rating: 4.4, reviews: 534, seller: "KitchenPro", image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=400&h=400&fit=crop", discount: 60 },
+            { id: 19, title: "Korean Face Mask Sheet - Pack of 10", category: "beauty", price: 199, originalPrice: 599, rating: 4.2, reviews: 389, seller: "SkinGlow", image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop", discount: 67 },
+            { id: 20, title: "Silk Printed Scarf - Lightweight", category: "books", price: 549, originalPrice: 1299, rating: 4.5, reviews: 478, seller: "FabricCraft", image: "https://images.unsplash.com/photo-1566150905458-1bf049841868?w=400&h=400&fit=crop", discount: 58 },
+            { id: 21, title: "Professional Over-Ear Wireless Headphones", category: "electronics", price: 1899, originalPrice: 4999, rating: 4.6, reviews: 2134, seller: "TechStore", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop", discount: 62 },
+            { id: 22, title: "Men's Slim Fit Dark Blue Denim Jeans", category: "clothing", price: 799, originalPrice: 1999, rating: 4.4, reviews: 834, seller: "FashionHub", image: "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop", discount: 60 },
+            { id: 23, title: "Memory Foam Pillow Set - 2 Pieces", category: "home", price: 699, originalPrice: 1899, rating: 4.5, reviews: 612, seller: "SleepWell", image: "https://images.unsplash.com/photo-1584622181563-430f63602d4b?w=400&h=400&fit=crop", discount: 63 },
+            { id: 24, title: "Matte Finish Lipstick Combo Pack - 3 Shades", category: "beauty", price: 499, originalPrice: 1499, rating: 4.6, reviews: 756, seller: "MakeupStudio", image: "https://images.unsplash.com/photo-1586495777744-24f32aad3560?w=400&h=400&fit=crop", discount: 67 },
+            { id: 25, title: "UV Protection Sunglasses - Trendy Design", category: "books", price: 799, originalPrice: 2299, rating: 4.6, reviews: 623, seller: "EyeWearCo", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop", discount: 65 },
+        ];
+
+        // ==================== STATE ====================
+        let cart = [];
+        let filteredProducts = [];
+        let currentUser = null;
+        let userOrders = {};
+
+        // SELLER STATE
+        let currentSeller = null;
+        let sellerProducts = [];
+        let sellerAccounts = {};
+        let sellerTab = 'products';
+        let editingProductId = null;
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+            filteredProducts = getMergedProducts();
+            renderProducts();
+            updateCartDrawer();
+        });
+
+        // ==================== LOAD ALL DATA ====================
+        function loadAllData() {
+            updateCartBadge();
+            updateCartDrawer();
+            updateAccountText();
+            if (currentSeller) document.getElementById('sellerNavText').textContent = currentSeller.storeName;
+        }
+
+        function saveData() {
+            // In-memory only
+        }
+
+        // ==================== MERGED PRODUCTS ====================
+        function getMergedProducts() {
+            return [...productsData, ...sellerProducts];
+        }
+
+        function findProduct(id) {
+            return getMergedProducts().find(p => p.id === id);
+        }
+
+        // ==================== SEARCH ====================
+        function showSearchSuggestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const suggestions = document.getElementById('searchSuggestions');
+            if (!input) { suggestions.classList.remove('active'); return; }
+            const matches = getMergedProducts().filter(p => p.title.toLowerCase().includes(input)).slice(0, 5);
+            if (!matches.length) { suggestions.classList.remove('active'); return; }
+            suggestions.innerHTML = matches.map(p => `<div class="suggestion-item" onclick="selectSuggestion('${p.title.replace(/'/g, "\\'")}')"><i class="fas fa-search" style="margin-right:8px;opacity:0.5;"></i>${p.title}</div>`).join('');
+            suggestions.classList.add('active');
+        }
+
+        function selectSuggestion(text) {
+            document.getElementById('searchInput').value = text;
+            document.getElementById('searchSuggestions').classList.remove('active');
+            performSearch();
+        }
+
+        function performSearch() {
+            applyFilters();
+            document.getElementById('searchSuggestions').classList.remove('active');
+            document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') performSearch(); });
+        document.addEventListener('click', e => { if (!e.target.closest('.search-box')) document.getElementById('searchSuggestions').classList.remove('active'); });
+
+        // ==================== RENDER PRODUCTS ====================
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            if (!filteredProducts.length) {
+                grid.innerHTML = `<div style="grid-column:1/-1"><div class="empty-state"><i class="fas fa-search"></i><p>No products found. Try different filters.</p></div></div>`;
+                return;
+            }
+            filteredProducts.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.style.animation = `slideUp 0.4s ease ${index * 0.04}s backwards`;
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop'">
+                        <span class="product-badge">${product.discount}% off</span>
+                        <button class="wishlist-btn" onclick="event.stopPropagation()" type="button"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-seller">by ${product.seller}</p>
+                        <div class="rating-row">
+                            <span class="stars">${'⭐'.repeat(Math.floor(product.rating))}</span>
+                            <span class="rating-count">${product.reviews.toLocaleString()}</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-symbol">₹</span>
+                            <span class="current-price">${product.price.toLocaleString()}</span>
+                            <span class="original-price">₹${product.originalPrice.toLocaleString()}</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-btn add-cart-btn" onclick="addToCart(event, ${product.id})" type="button">Add to Cart</button>
+                            <button class="action-btn detail-btn" onclick="showProductDetail(${product.id})" type="button">Details</button>
+                        </div>
+                    </div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        // ==================== FILTERS ====================
+        function applyFilters() {
+            let filtered = getMergedProducts();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchTerm) || p.seller.toLowerCase().includes(searchTerm));
+            const category = document.getElementById('categoryFilter').value;
+            if (category) filtered = filtered.filter(p => p.category === category);
+            const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+            const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+            filtered = filtered.filter(p => p.price >= minPrice && p.price <= maxPrice);
+            const sortBy = document.getElementById('sortBy').value;
+            if (sortBy === 'price-low') filtered.sort((a, b) => a.price - b.price);
+            else if (sortBy === 'price-high') filtered.sort((a, b) => b.price - a.price);
+            else if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+            filteredProducts = filtered;
+            renderProducts();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+            document.getElementById('sortBy').value = 'newest';
+            filteredProducts = getMergedProducts();
+            renderProducts();
+        }
+
+        function filterByCategory(cat) {
+            document.getElementById('categoryFilter').value = cat;
+            applyFilters();
+            document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== CART ====================
+        function addToCart(event, productId) {
+            event.preventDefault();
+            event.stopPropagation();
+            const product = findProduct(productId);
+            if (!product) return;
+            const existing = cart.find(item => item.id === productId);
+            if (existing) existing.quantity += 1;
+            else cart.push({ ...product, quantity: 1 });
+            saveData();
+            updateCartBadge();
+            updateCartDrawer();
+            showNotification('✓ Cart mein add ho gaya!');
+        }
+
+        function updateCartBadge() {
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = total;
+        }
+
+        function updateCartDrawer() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            if (!cart.length) {
+                cartItemsDiv.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><p>Your Amazon Cart is empty</p></div>`;
+                updateCartSummary();
+                return;
+            }
+            cartItemsDiv.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-image"><img src="${item.image}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop'"></div>
+                    <div class="cart-item-info">
+                        <p class="cart-item-title">${item.title}</p>
+                        <p class="cart-item-price">₹${item.price.toLocaleString()}</p>
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)" type="button">−</button>
+                            <span style="min-width:25px;text-align:center;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)" type="button">+</button>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})" type="button">Delete</button>
+                    </div>
+                </div>`).join('');
+            updateCartSummary();
+        }
+
+        function updateCartSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const delivery = subtotal > 500 ? 0 : 50;
+            document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('delivery').textContent = delivery === 0 ? 'FREE' : `₹${delivery}`;
+            document.getElementById('total').textContent = `₹${(subtotal + delivery).toLocaleString()}`;
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(i => i.id !== productId);
+            saveData();
+            updateCartBadge();
+            updateCartDrawer();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            saveData();
+            updateCartBadge();
+            updateCartDrawer();
+            showNotification('Item remove ho gaya');
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+            updateCartDrawer();
+        }
+
+        // ==================== PRODUCT DETAIL ====================
+        function showProductDetail(productId) {
+            const product = findProduct(productId);
+            if (!product) return;
+            const similar = getMergedProducts().filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+            document.getElementById('productDetailContent').innerHTML = `
+                <div class="product-detail">
+                    <div class="detail-image"><img src="${product.image}" alt="${product.title}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop'"></div>
+                    <div class="detail-info">
+                        <h2>${product.title}</h2>
+                        <p class="detail-seller">by ${product.seller}</p>
+                        <div class="detail-rating">
+                            <span class="stars">${'⭐'.repeat(Math.floor(product.rating))}</span>
+                            <span>${product.rating}/5 (${product.reviews.toLocaleString()} reviews)</span>
+                        </div>
+                        <div class="detail-price-section">
+                            <div class="detail-price">
+                                <span class="detail-current-price">₹${product.price.toLocaleString()}</span>
+                                <span class="detail-original-price">₹${product.originalPrice.toLocaleString()}</span>
+                                <span class="detail-discount">${product.discount}% off</span>
+                            </div>
+                            <p style="font-size:13px;color:var(--text-secondary);">✓ FREE Delivery on orders above ₹500</p>
+                        </div>
+                        <div class="detail-specs">
+                            <div class="spec-item"><span class="spec-label">Category</span><span class="spec-value">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span></div>
+                            <div class="spec-item"><span class="spec-label">Original Price</span><span class="spec-value">₹${product.originalPrice.toLocaleString()}</span></div>
+                            <div class="spec-item"><span class="spec-label">Discount</span><span class="spec-value">${product.discount}%</span></div>
+                            <div class="spec-item"><span class="spec-label">Rating</span><span class="spec-value">${product.rating}/5</span></div>
+                        </div>
+                        <div class="detail-actions">
+                            <button class="action-btn add-cart-btn" onclick="addToCart(event,${productId});closeModal();" type="button">Add to Cart</button>
+                            <button class="action-btn detail-btn" onclick="addToCart(event,${productId});closeModal();toggleCart();" type="button">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                ${similar.length ? `<div class="similar-section"><h3>Customers Also Viewed</h3><div class="similar-grid">${similar.map(p => `<div class="similar-product" onclick="showProductDetail(${p.id})"><div class="similar-image"><img src="${p.image}" alt="${p.title}"></div><div class="similar-info"><p class="similar-title">${p.title}</p><p class="similar-price">₹${p.price.toLocaleString()}</p></div></div>`).join('')}</div></div>` : ''}`;
+            openModal('productModal');
+        }
+
+        // ==================== AUTH ====================
+        function toggleAuthModal() {
+            const content = document.getElementById('authFormContent');
+            if (currentUser) {
+                content.innerHTML = `<div style="padding:30px;text-align:center;">
+                    <div style="font-size:50px;margin-bottom:10px;">👤</div>
+                    <h2 style="font-size:20px;margin-bottom:8px;">Welcome, ${currentUser.name}!</h2>
+                    <p style="color:var(--text-secondary);margin-bottom:20px;">${currentUser.email}</p>
+                    <button style="width:100%;padding:12px;background:var(--amazon-orange);color:var(--text-primary);border:none;border-radius:4px;font-weight:600;cursor:pointer;margin-bottom:10px;font-size:14px;" onclick="closeModal();showOrders();">📦 View My Orders</button>
+                    <button style="width:100%;padding:12px;background:white;color:#C7511F;border:1px solid #C7511F;border-radius:4px;font-weight:600;cursor:pointer;font-size:14px;" onclick="logout()">Sign Out</button>
+                </div>`;
+            } else {
+                content.innerHTML = `<div class="auth-form">
+                    <h2>Sign In</h2>
+                    <p>Enter your email and password to continue</p>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="example@email.com"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+                    <button class="auth-btn" onclick="loginUser()">Sign In</button>
+                    <div class="toggle-auth">Don't have an account? <button onclick="showRegisterForm()">Create Account</button></div>
+                </div>`;
+                setTimeout(() => document.getElementById('loginEmail')?.focus(), 100);
+            }
+            openModal('authModal');
+        }
+
+        function showRegisterForm() {
+            document.getElementById('authFormContent').innerHTML = `<div class="auth-form">
+                <h2>Create Account</h2>
+                <p>Register to start shopping on Amazon.in</p>
+                <div class="form-group"><label>Your Name</label><input type="text" id="regName" placeholder="Full Name"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="regEmail" placeholder="example@email.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters"></div>
+                <button class="auth-btn" onclick="registerUser()">Create Account</button>
+                <div class="toggle-auth">Already have an account? <button onclick="toggleAuthModal()">Sign In</button></div>
+            </div>`;
+        }
+
+        function registerUser() {
+            const name = document.getElementById('regName')?.value.trim();
+            const email = document.getElementById('regEmail')?.value.trim();
+            const password = document.getElementById('regPassword')?.value;
+            if (!name || !email || !password) { showNotification('Sab fields bharo', 'error'); return; }
+            currentUser = { name, email };
+            userOrders[email] = userOrders[email] || [];
+            saveData();
+            updateAccountText();
+            closeModal();
+            showNotification(`✓ Welcome ${name}! Account ban gaya.`);
+        }
+
+        function loginUser() {
+            const email = document.getElementById('loginEmail')?.value.trim();
+            const password = document.getElementById('loginPassword')?.value;
+            if (!email || !password) { showNotification('Email aur password bharo', 'error'); return; }
+            currentUser = { name: email.split('@')[0], email };
+            userOrders[email] = userOrders[email] || [];
+            saveData();
+            updateAccountText();
+            closeModal();
+            showNotification(`✓ Welcome back, ${currentUser.name}!`);
+        }
+
+        function logout() {
+            currentUser = null;
+            saveData();
+            updateAccountText();
+            showNotification('✓ Sign out ho gaya');
+            closeModal();
+        }
+
+        function updateAccountText() {
+            document.getElementById('accountText').textContent = currentUser ? currentUser.name.split(' ')[0] : 'Sign In';
+        }
+
+        // ==================== ORDERS ====================
+        function showOrders() {
+            if (!currentUser) {
+                document.getElementById('ordersContent').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-lock"></i>
+                        <p style="margin-top:20px;font-size:15px;font-weight:600;">Sign in karo orders dekhne ke liye</p>
+                        <button onclick="closeModal();setTimeout(toggleAuthModal,100);" style="margin-top:20px;padding:12px 30px;background:var(--amazon-orange);color:var(--text-primary);border:none;border-radius:4px;font-weight:700;font-size:14px;cursor:pointer;">Sign In / Register</button>
+                    </div>`;
+                openModal('ordersModal');
+                return;
+            }
+
+            const orders = (userOrders[currentUser.email] || []).slice().reverse();
+
+            if (orders.length === 0) {
+                document.getElementById('ordersContent').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p style="margin-top:20px;font-size:15px;font-weight:600;">Koi orders nahi hain abhi</p>
+                        <p style="margin-top:8px;color:var(--text-secondary);">Kuch products cart mein daalo aur checkout karo!</p>
+                        <button onclick="closeModal();scrollToProducts();" style="margin-top:20px;padding:12px 30px;background:var(--amazon-orange);color:var(--text-primary);border:none;border-radius:4px;font-weight:700;font-size:14px;cursor:pointer;">Shopping Start Karo</button>
+                    </div>`;
+            } else {
+                document.getElementById('ordersContent').innerHTML = `
+                    <div class="orders-list">
+                        ${orders.map(order => {
+                    // ✅ STATUS BADGE: CSS class based on status string
+                    const statusClass = order.status.toLowerCase().replace(/\s+/g, '-');
+                    // ✅ STATUS ICON
+                    const statusIcon = order.status === 'Pending Seller Approval' ? '⏳' :
+                        order.status === 'Ready to Deliver' ? '🚀' :
+                            order.status === 'Delivered' ? '✅' :
+                                order.status === 'Returned' ? '↩️' : '📦';
+                    return `
+                        <div class="order-item" id="order-${order.id}">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #${order.id}</div>
+                                    <div class="order-date">Placed on ${new Date(order.date).toLocaleDateString('en-IN')}</div>
+                                </div>
+                                <span class="order-status ${statusClass}">${statusIcon} ${order.status}</span>
+                            </div>
+                            <div class="order-items">
+                                ${order.items.map(item => `<div style="margin-bottom:6px;">• <strong>${item.title}</strong> &times; ${item.quantity || 1} &mdash; &#8377;${item.price.toLocaleString()}</div>`).join('')}
+                            </div>
+                            <div class="order-price">Total: &#8377;${order.total.toLocaleString()}</div>
+                            ${order.status === 'Pending Seller Approval'
+                            ? `<div style="font-size:12px;color:#F57F17;font-weight:600;margin-top:8px;">⏳ Seller ki approval ka wait ho raha hai...</div>`
+                            : `<div class="delivery-date">&#128230; Expected: ${new Date(order.deliveryDate).toLocaleDateString('en-IN')}</div>`
+                        }
+                            <div class="order-actions">
+                                <button class="order-action-btn order-return-btn" onclick="returnOrder('${order.id}')">&#8629; Return</button>
+                                <button class="order-action-btn order-delete-btn" onclick="deleteOrder('${order.id}')">&#128465; Delete</button>
+                            </div>
+                        </div>`;
+                }).join('')}
+                    </div>`;
+            }
+            openModal('ordersModal');
+        }
+
+        function deleteOrder(orderId) {
+            userOrders[currentUser.email] = (userOrders[currentUser.email] || []).filter(o => String(o.id) !== String(orderId));
+            saveData();
+            showNotification('✓ Order delete ho gaya');
+            showOrders();
+        }
+
+        function returnOrder(orderId) {
+            const orders = userOrders[currentUser.email] || [];
+            const order = orders.find(o => String(o.id) === String(orderId));
+            if (!order) return;
+            if (order.status === 'Returned') { showNotification('Yeh order pehle se return ho chuka hai', 'error'); return; }
+            order.status = 'Returned';
+            saveData();
+            showNotification(`✓ Return request place ho gaya — Order #${orderId}`);
+            showOrders();
+        }
+
+        // ==================== ✅ NEW: APPROVE ORDER (Seller) ====================
+        function approveOrder(orderId, buyerEmail) {
+            const orders = userOrders[buyerEmail] || [];
+            const order = orders.find(o => String(o.id) === String(orderId));
+            if (!order) return;
+            order.status = 'Ready to Deliver';
+            saveData();
+            showNotification(`✅ Order #${orderId} approve ho gaya! User ko "Ready to Deliver" dikhega.`);
+            renderSellerDash('orders'); // Refresh seller dashboard
+        }
+
+        // ==================== CHECKOUT ====================
+        function proceedCheckout() {
+            if (!cart.length) { showNotification('Cart mein kuch add karo pehle', 'error'); return; }
+            if (!currentUser) { showNotification('Pehle sign in karo', 'error'); toggleAuthModal(); return; }
+            const orderId = Math.floor(Math.random() * 9000000) + 1000000;
+            const orderDate = new Date();
+            const deliveryDate = new Date(orderDate.getTime() + 3 * 86400000);
+            const order = {
+                id: orderId,
+                buyerEmail: currentUser.email, // ✅ Store buyer email for seller approval
+                items: cart.map(i => ({ title: i.title, price: i.price, quantity: i.quantity, seller: i.seller, sellerEmail: i.sellerEmail || null })),
+                total: cart.reduce((s, i) => s + i.price * i.quantity, 0),
+                date: orderDate,
+                deliveryDate,
+                status: 'Pending Seller Approval' // ✅ CHANGED from 'Processing'
+            };
+            if (!userOrders[currentUser.email]) userOrders[currentUser.email] = [];
+            userOrders[currentUser.email].push(order);
+            cart = [];
+            saveData();
+            updateCartBadge();
+            updateCartDrawer();
+            toggleCart();
+            showNotification(`✓ Order place ho gaya! #${orderId} — Seller approval ka wait karo ⏳`);
+        }
+
+        // ==================== MODAL ====================
+        function openModal(modalId) {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            document.getElementById('modalOverlay').classList.add('active');
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('modalOverlay')) closeModal();
+        }
+
+        // ==================== NOTIFICATION ====================
+        function showNotification(message, type = 'success') {
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            const n = document.createElement('div');
+            n.className = `notification ${type}`;
+            n.textContent = message;
+            document.body.appendChild(n);
+            setTimeout(() => { n.style.opacity = '0'; n.style.transition = 'opacity 0.3s'; setTimeout(() => n.remove(), 300); }, 3000);
+        }
+
+        // ==================== UTILITY ====================
+        function scrollToProducts() { document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' }); }
+        function goHome() { window.scrollTo({ top: 0, behavior: 'smooth' }); clearFilters(); }
+
+        // ==================== SELLER ====================
+        function toggleSellerModal() {
+            if (currentSeller) { renderSellerDash(); openModal('sellerDashModal'); }
+            else { renderSellerAuth('login'); openModal('sellerAuthModal'); }
+        }
+
+        function renderSellerAuth(mode) {
+            const el = document.getElementById('sellerAuthContent');
+            if (mode === 'login') {
+                el.innerHTML = `<div class="auth-form">
+                    <h2>Seller Sign In</h2><p>Apni products manage karo</p>
+                    <div class="seller-form-group"><label>Email</label><input type="email" id="sEmail" placeholder="seller@email.com"></div>
+                    <div class="seller-form-group"><label>Password</label><input type="password" id="sPassword" placeholder="••••••••"></div>
+                    <button class="auth-btn" onclick="sellerLogin()">Sign In</button>
+                    <div class="toggle-auth">Naya seller? <button onclick="renderSellerAuth('register')">Store register karo</button></div>
+                </div>`;
+            } else {
+                el.innerHTML = `<div class="auth-form">
+                    <h2>Seller Register</h2><p>Amazon.in pe apna store kholo</p>
+                    <div class="seller-form-group"><label>Store Name</label><input type="text" id="sStoreName" placeholder="My Awesome Store"></div>
+                    <div class="seller-form-group"><label>Your Name</label><input type="text" id="sName" placeholder="Full Name"></div>
+                    <div class="seller-form-group"><label>Email</label><input type="email" id="sEmail" placeholder="seller@email.com"></div>
+                    <div class="seller-form-group"><label>Password</label><input type="password" id="sPassword" placeholder="Min 6 characters"></div>
+                    <button class="auth-btn" onclick="sellerRegister()">Create Seller Account</button>
+                    <div class="toggle-auth">Already registered? <button onclick="renderSellerAuth('login')">Sign In</button></div>
+                </div>`;
+            }
+        }
+
+        function sellerLogin() {
+            const email = document.getElementById('sEmail')?.value.trim();
+            const password = document.getElementById('sPassword')?.value;
+            if (!email || !password) { showNotification('Email aur password bharo', 'error'); return; }
+            const acc = sellerAccounts[email];
+            if (!acc || acc.password !== password) { showNotification('Email ya password galat hai', 'error'); return; }
+            currentSeller = acc;
+            saveData();
+            document.getElementById('sellerNavText').textContent = currentSeller.storeName;
+            showNotification(`✓ Welcome back, ${currentSeller.storeName}!`);
+            renderSellerDash();
+            openModal('sellerDashModal');
+        }
+
+        function sellerRegister() {
+            const storeName = document.getElementById('sStoreName')?.value.trim();
+            const name = document.getElementById('sName')?.value.trim();
+            const email = document.getElementById('sEmail')?.value.trim();
+            const password = document.getElementById('sPassword')?.value;
+            if (!storeName || !name || !email || !password) { showNotification('Sab fields bharo', 'error'); return; }
+            if (password.length < 6) { showNotification('Password kam se kam 6 characters ka hona chahiye', 'error'); return; }
+            if (sellerAccounts[email]) { showNotification('Yeh email pehle se registered hai', 'error'); return; }
+            sellerAccounts[email] = { storeName, name, email, password };
+            currentSeller = sellerAccounts[email];
+            saveData();
+            document.getElementById('sellerNavText').textContent = storeName;
+            showNotification(`✓ Store "${storeName}" register ho gaya!`);
+            renderSellerDash();
+            openModal('sellerDashModal');
+        }
+
+        function sellerLogout() {
+            currentSeller = null;
+            saveData();
+            document.getElementById('sellerNavText').textContent = 'Sell';
+            showNotification('✓ Seller logout successful');
+            closeModal();
+        }
+
+        function renderSellerDash(tab) {
+            if (tab) sellerTab = tab;
+            const myProducts = sellerProducts.filter(p => p.sellerEmail === currentSeller.email);
+
+            // ✅ Find ALL orders across ALL buyers that contain this seller's products
+            const allBuyerEmails = Object.keys(userOrders);
+            let myOrdersWithMeta = []; // { order, buyerEmail }
+            allBuyerEmails.forEach(buyerEmail => {
+                (userOrders[buyerEmail] || []).forEach(order => {
+                    const hasMyProduct = order.items.some(item =>
+                        myProducts.find(p => p.title === item.title) ||
+                        item.sellerEmail === currentSeller.email
+                    );
+                    if (hasMyProduct) myOrdersWithMeta.push({ order, buyerEmail });
+                });
+            });
+
+            // ✅ Count pending approvals for dashboard badge
+            const pendingCount = myOrdersWithMeta.filter(m => m.order.status === 'Pending Seller Approval').length;
+
+            const totalRevenue = myOrdersWithMeta.reduce((sum, { order }) => {
+                return sum + order.items
+                    .filter(i => myProducts.find(p => p.title === i.title) || i.sellerEmail === currentSeller.email)
+                    .reduce((s, i) => s + i.price * (i.quantity || 1), 0);
+            }, 0);
+
+            document.getElementById('sellerDashContent').innerHTML = `
+                <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+                    <div><strong style="font-size:15px;">🏪 ${currentSeller.storeName}</strong><span style="font-size:12px;color:var(--text-secondary);margin-left:10px;">${currentSeller.email}</span></div>
+                    <button onclick="sellerLogout()" style="padding:7px 16px;background:white;color:#C7511F;border:1px solid #C7511F;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;">Logout</button>
+                </div>
+                <div class="seller-stats">
+                    <div class="seller-stat-card"><div class="seller-stat-num">${myProducts.length}</div><div class="seller-stat-label">Total Products</div></div>
+                    <div class="seller-stat-card">
+                        <div class="seller-stat-num">${myOrdersWithMeta.length}</div>
+                        <div class="seller-stat-label">Orders Received</div>
+                        ${pendingCount > 0 ? `<div style="font-size:11px;color:#F57F17;font-weight:700;margin-top:4px;">⏳ ${pendingCount} Pending Approval</div>` : ''}
+                    </div>
+                    <div class="seller-stat-card"><div class="seller-stat-num">₹${totalRevenue.toLocaleString()}</div><div class="seller-stat-label">Total Revenue</div></div>
+                </div>
+                <div class="seller-tabs">
+                    <div class="seller-tab ${sellerTab === 'products' ? 'active' : ''}" onclick="renderSellerDash('products')">📦 My Products</div>
+                    <div class="seller-tab ${sellerTab === 'orders' ? 'active' : ''}" onclick="renderSellerDash('orders')">
+                        🛒 Orders ${pendingCount > 0 ? `<span style="background:#F57F17;color:white;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;">${pendingCount}</span>` : ''}
+                    </div>
+                </div>
+                ${sellerTab === 'products' ? `
+                    <button class="add-product-btn" onclick="openAddProductForm()">+ Add New Product</button>
+                    ${!myProducts.length
+                        ? `<div class="empty-state"><i class="fas fa-box-open"></i><p style="margin-top:12px;">Koi product nahi hai abhi. Pehla product add karo!</p></div>`
+                        : myProducts.map(p => `
+                            <div class="seller-product-row">
+                                <img src="${p.image}" alt="${p.title}" onerror="this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=50&h=50&fit=crop'">
+                                <div class="seller-product-info">
+                                    <div class="seller-product-title">${p.title}</div>
+                                    <div class="seller-product-meta">₹${p.price.toLocaleString()} &nbsp;|&nbsp; ${p.category} &nbsp;|&nbsp; ${p.discount}% off</div>
+                                </div>
+                                <div class="seller-product-actions">
+                                    <button class="s-edit-btn" onclick="openEditProductForm(${p.id})">✏️ Edit</button>
+                                    <button class="s-del-btn" onclick="deleteSellerProduct(${p.id})">🗑 Delete</button>
+                                </div>
+                            </div>`).join('')}
+                ` : `
+                    ${!myOrdersWithMeta.length
+                    ? `<div class="empty-state"><i class="fas fa-shopping-bag"></i><p style="margin-top:12px;">Abhi koi orders nahi mile.</p></div>`
+                    : myOrdersWithMeta.map(({ order, buyerEmail }) => {
+                        const statusClass = order.status.toLowerCase().replace(/\s+/g, '-');
+                        const isPending = order.status === 'Pending Seller Approval';
+                        const myItems = order.items.filter(i =>
+                            myProducts.find(p => p.title === i.title) || i.sellerEmail === currentSeller.email
+                        );
+                        const myTotal = myItems.reduce((s, i) => s + i.price * (i.quantity || 1), 0);
+                        return `
+                            <div class="seller-order-row" style="${isPending ? 'border-left: 3px solid #F57F17; padding-left: 10px;' : ''}">
+                                <div class="seller-order-top">
+                                    <span class="seller-order-id">Order #${order.id}</span>
+                                    <span class="order-status ${statusClass}">${order.status}</span>
+                                </div>
+                                <div class="seller-order-items">${myItems.map(i => `${i.title} × ${i.quantity || 1}`).join(', ')}</div>
+                                <div class="seller-order-total">
+                                    ₹${myTotal.toLocaleString()}
+                                    <span style="font-size:11px;color:var(--text-secondary);font-weight:400;margin-left:8px;">${new Date(order.date).toLocaleDateString('en-IN')}</span>
+                                </div>
+                                ${isPending ? `
+                                    <div style="margin-top:10px;">
+                                        <button class="s-approve-btn" onclick="approveOrder('${order.id}', '${buyerEmail}')">
+                                            ✅ Approve & Ready to Deliver
+                                        </button>
+                                        <span style="font-size:11px;color:#F57F17;margin-left:10px;">Buyer approval ka wait kar raha hai</span>
+                                    </div>` : ''}
+                            </div>`;
+                    }).join('')}
+                `}`;
+        }
+
+        function openAddProductForm() {
+            editingProductId = null;
+            document.getElementById('sellerProductModalTitle').textContent = '+ Add New Product';
+            document.getElementById('sellerProductContent').innerHTML = productFormHTML({});
+            openModal('sellerProductModal');
+        }
+
+        function openEditProductForm(productId) {
+            editingProductId = productId;
+            const p = sellerProducts.find(p => p.id === productId);
+            if (!p) return;
+            document.getElementById('sellerProductModalTitle').textContent = '✏️ Edit Product';
+            document.getElementById('sellerProductContent').innerHTML = productFormHTML(p);
+            openModal('sellerProductModal');
+        }
+
+        function productFormHTML(p) {
+            return `
+                <div class="seller-form-row">
+                    <div class="seller-form-group"><label>Product Title *</label><input type="text" id="pTitle" value="${p.title || ''}" placeholder="Product ka naam"></div>
+                    <div class="seller-form-group"><label>Category *</label>
+                        <select id="pCategory">
+                            <option value="electronics" ${p.category === 'electronics' ? 'selected' : ''}>Electronics</option>
+                            <option value="clothing" ${p.category === 'clothing' ? 'selected' : ''}>Clothing</option>
+                            <option value="home" ${p.category === 'home' ? 'selected' : ''}>Home & Kitchen</option>
+                            <option value="beauty" ${p.category === 'beauty' ? 'selected' : ''}>Beauty</option>
+                            <option value="books" ${p.category === 'books' ? 'selected' : ''}>Books</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="seller-form-row">
+                    <div class="seller-form-group"><label>Selling Price (₹) *</label><input type="number" id="pPrice" value="${p.price || ''}" placeholder="e.g. 999"></div>
+                    <div class="seller-form-group"><label>Original MRP (₹) *</label><input type="number" id="pOriginal" value="${p.originalPrice || ''}" placeholder="e.g. 1999"></div>
+                </div>
+                <div class="seller-form-group"><label>Product Image URL</label><input type="text" id="pImage" value="${p.image || ''}" placeholder="https://... (khali chhodo to default image aayegi)"></div>
+                <div class="seller-form-group"><label>Store / Seller Name *</label><input type="text" id="pSeller" value="${p.seller || currentSeller.storeName}"></div>
+                <button class="seller-save-btn" onclick="saveSellerProduct()">💾 Save Product</button>`;
+        }
+
+        function saveSellerProduct() {
+            const title = document.getElementById('pTitle')?.value.trim();
+            const category = document.getElementById('pCategory')?.value;
+            const price = parseInt(document.getElementById('pPrice')?.value);
+            const originalPrice = parseInt(document.getElementById('pOriginal')?.value);
+            const image = document.getElementById('pImage')?.value.trim() || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop';
+            const seller = document.getElementById('pSeller')?.value.trim();
+            if (!title || !category || !price || !originalPrice || !seller) { showNotification('Sab zaroori fields bharo (*)', 'error'); return; }
+            if (price >= originalPrice) { showNotification('Selling price MRP se kam honi chahiye', 'error'); return; }
+            const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
+            if (editingProductId) {
+                const idx = sellerProducts.findIndex(p => p.id === editingProductId);
+                if (idx > -1) sellerProducts[idx] = { ...sellerProducts[idx], title, category, price, originalPrice, image, seller, discount };
+                showNotification('✓ Product update ho gaya!');
+            } else {
+                sellerProducts.push({ id: Date.now(), title, category, price, originalPrice, image, seller, discount, rating: 4.0, reviews: 0, sellerEmail: currentSeller.email });
+                showNotification('✓ Product add ho gaya!');
+            }
+            saveData();
+            filteredProducts = getMergedProducts();
+            renderProducts();
+            renderSellerDash('products');
+            openModal('sellerDashModal');
+        }
+
+        function deleteSellerProduct(productId) {
+            sellerProducts = sellerProducts.filter(p => p.id !== productId);
+            saveData();
+            filteredProducts = getMergedProducts();
+            renderProducts();
+            showNotification('✓ Product delete ho gaya');
+            renderSellerDash('products');
+        }
+    </script>
+</body>
+
+</html>
